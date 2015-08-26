@@ -1,2 +1,4 @@
-import pydicom, glob
-print glob.glob("/neuro/users/yann.mallegol/Documents/internship/chris-db/python_test*.dcm")
+from path import path
+
+for f in path('.').walkfiles('*.dcm'):
+   print f
