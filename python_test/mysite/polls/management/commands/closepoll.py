@@ -8,8 +8,10 @@ from django.db import connection
 
 class Command(BaseCommand):
     help = 'that does my stuff'
+    
 
     def handle(self, *args, **options):
+        
        for dossier, sous_dossiers, fichiers in os.walk('/neuro/users/chris/data'):
            for fichier in fichiers:
                fullpath = os.path.join(dossier, fichier)
@@ -21,14 +23,25 @@ class Command(BaseCommand):
 
                   try:
                       print(ds.SeriesDescription)
-                      description = ds.SeriesDescription
-                      question_text=description
-                      print (question_text)
-                      database_connexion = sqlite.connect('polls.sqlite')
-                      cursor = database_connexion.cursor()
-                      cursor.execute("insert into Question values (null,?,?)", (question_text))
-                      database_connexion.commit()
-                      cursor.close()
+                      b = Question(question_text=description)
+                      b.save()
+                      
+                      #description = ds.SeriesDescription
+                      #Question.get(question_text=description)
+                      #Question.save()
+                      
+                      
+                      
+                      
+                      #question_text=description
+                      #print (question_text)
+                      #Question.question_text= 'how are you today'
+                      #Question.save()
+                      #database_connexion = sqlite.connect('polls.sqlite')
+                      #cursor = database_connexion.cursor()
+                      #cursor.execute("insert into Question values (null,?,?)", (question_text))
+                      #database_connexion.commit()
+                      #cursor.close()
                       #q=Question(question_text="description")
                       #q=save()
                       #c.execute("test", (description))
