@@ -9,6 +9,8 @@ a = False
 print(type(a))
 
 print(ds.PatientName)
+nom_patient = ds.PatientName
+print (nom_patient) 
 print(ds.SeriesNumber)
 print(ds.PatientID)
 print(ds.StudyDescription)
@@ -31,4 +33,3 @@ print(q)
 if "PatientID in ds":
 	a = True
 	print(a)
-
