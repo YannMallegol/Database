@@ -1,7 +1,7 @@
 import os, pydicom
 from django.core.management.base import BaseCommand, CommandError
-from polls.models import Question, Choice
-from django.db import connection
+#from data_base.models import Group, Tag, User, Feed, Patient, Study, Data, Series, MR_Params, US_Params, CT_Params, Review, Token 
+from django.db import IntegrityError
 
 
 
@@ -19,40 +19,43 @@ class Command(BaseCommand):
                print(fullpath)
                try:
                   ds = pydicom.read_file(fullpath)
-                  print(ds.PatientName)
-
+                  
+                  ############# Study table ############## 
                   try:
-                      print(ds.SeriesDescription)
-                      b = Question(question_text=description)
-                      b.save()
-                      
-                      #description = ds.SeriesDescription
-                      #Question.get(question_text=description)
-                      #Question.save()
-                      
-                      
-                      
-                      
-                      #question_text=description
-                      #print (question_text)
-                      #Question.question_text= 'how are you today'
-                      #Question.save()
-                      #database_connexion = sqlite.connect('polls.sqlite')
-                      #cursor = database_connexion.cursor()
-                      #cursor.execute("insert into Question values (null,?,?)", (question_text))
-                      #database_connexion.commit()
-                      #cursor.close()
-                      #q=Question(question_text="description")
-                      #q=save()
-                      #c.execute("test", (description))
-                      #c.close()
-                      
+                      print(ds.Name)
+                     # b = Study(Name=ds.Name)
+                     # b.save()
+                                                                 
                   except NameError:
                       print('not possible to know this information')
-                  try:
-                      print(ds.SeriesNumber)
-                  except NameError:
+                  except AttributeError:
                       print('not possible to know this information')
+                      
+                  try:
+                      print(ds.Pathology)
+                      #b = Study(Pathology=ds.Pathology)
+                      #b.save()
+                                            
+                  except NameError:
+                      print('not possible to know this information')    
+                  except AttributeError:
+                      print('not possible to know this information')
+                      
+                      
+                  try:
+                      print(ds.StationName)
+                      #b = Study(StationName=ds.StationName)
+                     # b.save()
+                                            
+                  except NameError:
+                      print('not possible to know this information')    
+                  except AttributeError:
+                      print('not possible to know this information')    
+                      
 
+                    
+                      
+                      
                except pydicom.errors.InvalidDicomError:
                        print('not possible to know this information')
+                       
