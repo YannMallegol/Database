@@ -20,9 +20,12 @@ class Command(BaseCommand):
                try:
                   ds = pydicom.read_file(fullpath)
 
+
                   ############# Study table ##############
                   try:
-                      b = Study(Name=ds.Name)
+                      b = Study(Name=ds.Name, Pathology=ds.Pathology, StationName=ds.StationName,
+                       ManufacturerModelName=ds.ManufacturerModelName, BodyPartExaminated=ds.BodyPartExaminated,
+                        MagneticFieldStrength=ds.MagneticFieldStrength, Modality=ds.Modality, StudyInstanceUID=ds.StudyInstanceUID)
                       b.save()
 
                   except NameError:
@@ -30,29 +33,13 @@ class Command(BaseCommand):
                   except AttributeError:
                       print('not possible to know this information')
 
-                  try:
-                      b = Study(Pathology=ds.Pathology)
-                      b.save()
 
-                  except NameError:
-                      print('not possible to know this information')
-                  except AttributeError:
-                      print('not possible to know this information')
+
+                      #############  table ##############
 
 
                   try:
-                      b = Study(StationName=ds.StationName)
-                      b.save()
-
-
-                  except NameError:
-                      print('not possible to know this information')
-                  except AttributeError:
-                      print('not possible to know this information')
-
-
-                  try:
-                      b = Study(ManufacturerModelName=ds.ManufacturerModelName)
+                      b = Patient(PatientName=ds.PatientName, StudyInstanceUID=ds.StudyInstanceUID, PatientBirthdate=ds.PatientBirthdate, PatientAge=ds.PatientAge, PatientId=ds.PatientId)
                       b.save()
 
                   except NameError:
@@ -60,102 +47,6 @@ class Command(BaseCommand):
                   except AttributeError:
                       print('not possible to know this information')
 
-
-                  try:
-                      b = Study(BodyPartExaminated=ds.BodyPartExaminated)
-                      b.save()
-
-                  except NameError:
-                      print('not possible to know this information')
-                  except AttributeError:
-                      print('not possible to know this information')
-
-
-
-                  try:
-                      b = Study(MagneticFieldStrength=ds.MagneticFieldStrength)
-                      b.save()
-
-                  except NameError:
-                      print('not possible to know this information')
-                  except AttributeError:
-                      print('not possible to know this information')
-
-
-                  try:
-                      b = Study(Modality=ds.Modality)
-                      b.save()
-
-                  except NameError:
-                      print('not possible to know this information')
-                  except AttributeError:
-                      print('not possible to know this information')
-
-                  try:
-                      b = Study(StudyInstanceUID=ds.StudyInstanceUID)
-                      b.save()
-
-                  except NameError:
-                      print('not possible to know this information')
-                  except AttributeError:
-                      print('not possible to know this information')
-
-
-
-
-
-
-
-                      ############# Patient table ##############
-
-
-                  try:
-                      b = Patient(PatientName=ds.PatientName)
-                      b.save()
-
-                  except NameError:
-                      print('not possible to know this information')
-                  except AttributeError:
-                      print('not possible to know this information')
-
-                  try:
-                      b = Patient(PatientSex=ds.PatientSex)
-                      b.save()
-
-                  except NameError:
-                      print('not possible to know this information')
-                  except AttributeError:
-                      print('not possible to know this information')
-
-
-                  try:
-                      b = Patient(PatientBirthdate=ds.PatientBirthdate)
-                      b.save()
-
-                  except NameError:
-                      print('not possible to know this information')
-                  except AttributeError:
-                      print('not possible to know this information')
-
-
-                  try:
-                      b = Patient( PatientAge=ds.PatientAge)
-                      b.save()
-
-                  except NameError:
-                      print('not possible to know this information')
-                  except AttributeError:
-                      print('not possible to know this information')
-
-
-                  try:
-                      b = Patient( PatientId=ds.PatientId)
-                      b.save()
-
-                  except NameError:
-                      print('not possible to know this information')
-                  except AttributeError:
-                      print('not possible to know this information')
 
 
 
@@ -163,48 +54,13 @@ class Command(BaseCommand):
 
 
                   try:
-                      b = Series( Name=ds.Name)
+                      b = Series( Name=ds.Name, SeriesName=ds.SeriesName, SeriesInstanceUID=ds.SeriesInstanceUID, ProtocolName=ds.ProtocolName)
                       b.save()
 
                   except NameError:
                       print('not possible to know this information')
                   except AttributeError:
                       print('not possible to know this information')
-
-
-
-                  try:
-                      b = Series( SeriesName=ds.SeriesName)
-                      b.save()
-
-                  except NameError:
-                      print('not possible to know this information')
-                  except AttributeError:
-                      print('not possible to know this information')
-
-
-
-                  try:
-                      b = Series(SeriesInstanceUID=ds.SeriesInstanceUID)
-                      b.save()
-
-                  except NameError:
-                      print('not possible to know this information')
-                  except AttributeError:
-                      print('not possible to know this information')
-
-
-
-                  try:
-                      b = Series(ProtocolName=ds.ProtocolName)
-                      b.save()
-
-                  except NameError:
-                      print('not possible to know this information')
-                  except AttributeError:
-                      print('not possible to know this information')
-
-
 
 
 
@@ -215,55 +71,13 @@ class Command(BaseCommand):
 
 
                   try:
-                      b = MR_Params(Name=ds.Name)
+                      b = MR_Params(Name=ds.Name, SliceThickness=ds.SliceThickness, EchoTime=ds.EchoTime, InversionTime=ds.InversionTime, RepetionTime=ds.RepetionTime)
                       b.save()
 
                   except NameError:
                       print('not possible to know this information')
                   except AttributeError:
                       print('not possible to know this information')
-
-                  try:
-                      b = MR_Params(SliceThickness=ds.SliceThickness)
-                      b.save()
-
-                  except NameError:
-                      print('not possible to know this information')
-                  except AttributeError:
-                      print('not possible to know this information')
-
-                  try:
-                     b = MR_Params(EchoTime=ds.EchoTime)
-                     b.save()
-
-                  except NameError:
-                      print('not possible to know this information')
-                  except AttributeError:
-                      print('not possible to know this information')
-
-
-
-                  try:
-                      b = MR_Params(InversionTime=ds.InversionTime)
-                      b.save()
-
-                  except NameError:
-                      print('not possible to know this information')
-                  except AttributeError:
-                      print('not possible to know this information')
-
-
-                  try:
-                      b = MR_Params(RepetionTime=ds.RepetionTime)
-                      b.save()
-
-                  except NameError:
-                      print('not possible to know this information')
-                  except AttributeError:
-                      print('not possible to know this information')
-
-
-
 
 
 
@@ -295,57 +109,13 @@ class Command(BaseCommand):
                       ############# Data table ##############
 
                   try:
-                      b = Data(Name=ds.Name)
+                      b = Data(Name=ds.Name, Description=ds.Description, Time=ds.Time, NbFiles=ds.NbFiles, Progress=ds.Progress)
                       b.save()
 
                   except NameError:
                       print('not possible to know this information')
                   except AttributeError:
                       print('not possible to know this information')
-
-
-
-                  try:
-                      b = Data(Description=ds.Description)
-                      b.save()
-
-                  except NameError:
-                      print('not possible to know this information')
-                  except AttributeError:
-                      print('not possible to know this information')
-
-
-
-                  try:
-                      b = Data(Time=ds.Time)
-                      b.save()
-
-                  except NameError:
-                      print('not possible to know this information')
-                  except AttributeError:
-                      print('not possible to know this information')
-
-
-                  try:
-                      b = Data(NbFiles=ds.NbFiles)
-                      b.save()
-
-                  except NameError:
-                      print('not possible to know this information')
-                  except AttributeError:
-                      print('not possible to know this information')
-
-
-                  try:
-                      b = Data(Progress=ds.Progress)
-                      b.save()
-
-                  except NameError:
-                      print('not possible to know this information')
-                  except AttributeError:
-                      print('not possible to know this information')
-
-
 
 
 
