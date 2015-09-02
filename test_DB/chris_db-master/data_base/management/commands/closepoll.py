@@ -27,12 +27,13 @@ class Command(BaseCommand):
                        ManufacturerModelName=ds.ManufacturerModelName, BodyPartExaminated=ds.BodyPartExaminated,
                         MagneticFieldStrength=ds.MagneticFieldStrength, Modality=ds.Modality, StudyInstanceUID=ds.StudyInstanceUID)
                       b.save()
-
+                      print("hello")
                   except NameError:
                       print('not possible to know this information')
                   except AttributeError:
                       print('not possible to know this information')
 
+                  import pdb; pdb.set_trace()
 
 
                       #############  table ##############
