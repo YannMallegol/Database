@@ -1,0 +1,27 @@
+import os, pydicom
+from django.core.management.base import BaseCommand, CommandError
+from polls.models import Question 
+from django.db import IntegrityError
+
+
+
+
+class Command(BaseCommand):
+    help = 'that does my stuff'
+    
+
+    def handle(self, *args, **options):
+        
+       for dossier, sous_dossiers, fichiers in os.walk('/neuro/users/chris/data'):
+           for fichier in fichiers:
+               fullpath = os.path.join(dossier, fichier)
+               question1='hello'
+               print(fullpath)
+               try:
+                  ds = pydicom.read_file(fullpath)
+                  b = Question(question_text= question1)
+         	  print (question_text)
+                      
+               except pydicom.errors.InvalidDicomError:
+                       print('not possible to know this information')
+                       
