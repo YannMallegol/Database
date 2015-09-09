@@ -4,19 +4,19 @@
 from django.db import models
 
 
-class Question(models.Model):
-    PatientId = models.CharField(max_length=200,null=False)
-    PatientName = models.CharField(max_length=200,default='')
+class Patient(models.Model):
+    PatientID = models.CharField(max_length=200,null=False)
+    PatientName = models.CharField(max_length=200,null=False)
     PatientAge = models.CharField(max_length=200,default='')
     PatientSex = models.CharField(max_length=200,default='')
     PatientBirthDate = models.CharField(max_length=200,default='')
     PatientBirthTime = models.CharField(max_length=200,default='')
 
     def __str__(self):              # __unicode__ on Python 2
-        return self.PatientId
+        return self.PatientID
 
 
-class Choice(models.Model):
+class Study(models.Model):
     StudyDescription = models.CharField(max_length=200,null=False)
     StationName = models.CharField(max_length=200,null=False)
     ManufacturerModelName = models.CharField(max_length=200,null=False)
@@ -30,7 +30,7 @@ class Choice(models.Model):
     PerformingPhysicianName = models.CharField(max_length=200,default='')
     ModalitiesInStudy = models.CharField(max_length=200,default='')
     MagneticFieldStrength = models.IntegerField(default=0)
-    patient = models.ForeignKey(Question)
+    patient = models.ForeignKey(Patient)
 
     def __str__(self):
         return self.StudyDescription
@@ -38,7 +38,7 @@ class Choice(models.Model):
 
 
 
-class Key(models.Model):
+class Series(models.Model):
     SeriesNumber = models.CharField(max_length=200,null=False)
     SeriesInstanceUID = models.CharField(max_length=200,null=False)
     ProtocolName = models.CharField(max_length=200,null=False)
@@ -50,7 +50,7 @@ class Key(models.Model):
     ScanningSequence = models.CharField(max_length=200,default='')
     BodyPartExaminated = models.CharField(max_length=200,default='')
     AcquisitionNumber =  models.CharField(max_length=200,default='')
-    study = models.ForeignKey(Choice)
+    study = models.ForeignKey(Study)
 
     def __str__(self):
         return self.SeriesDescription
@@ -63,13 +63,13 @@ class MR_Params(models.Model):
     EchoNumbers = models.CharField(max_length=200,default='')
     InversionTime = models.CharField(max_length=200,default='')
     RepetitionTime = models.CharField(max_length=200,default='')
-    modality_params = models.OneToOneField(Key, primary_key=True) 
+    modality_params = models.OneToOneField(Series, primary_key=True) 
 
 
 
 class US_Params(models.Model):
     Name = models.CharField(max_length=200,default='')
-    modality_params = models.OneToOneField(Key, primary_key=True)
+    modality_params = models.OneToOneField(Series, primary_key=True)
 
     def __str__(self):
         return self.Name
@@ -77,7 +77,7 @@ class US_Params(models.Model):
 
 class CT_Params(models.Model):
     Name = models.CharField(max_length=200,default='')
-    modality_params = models.OneToOneField(Key, primary_key=True)
+    modality_params = models.OneToOneField(Series, primary_key=True)
 
     def __str__(self):
         return self.Name        
@@ -87,8 +87,8 @@ class Review(models.Model):
     Name = models.CharField(max_length=200,default='')
     Comment = models.CharField(max_length=200,default='')
     Rating = models.BigIntegerField()
-    study = models.ForeignKey(Choice)
-    serie = models.ForeignKey(Key)
+    study = models.ForeignKey(Study)
+    serie = models.ForeignKey(Series)
 
     def __str__(self):
         return self.Name

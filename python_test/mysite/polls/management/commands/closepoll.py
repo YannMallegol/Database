@@ -1,6 +1,6 @@
 import os, pydicom
 from django.core.management.base import BaseCommand
-from polls.models import Question, Choice, Key, MR_Params, US_Params, CT_Params, Review
+from polls.models import Patient, Study, Series, MR_Params, US_Params, CT_Params, Review
 
 
 
@@ -24,11 +24,11 @@ class Command(BaseCommand):
                 ################# Patient table ###################
 
                 try:
-                  PatientId=ds.PatientId
+                  PatientID=ds.PatientID
                 except NameError:
-                  PatientId = 'undefined'
+                  PatientID = 'undefined'
                 except AttributeError:
-                  PatientId = 'undefined'
+                  PatientID = 'undefined'
 
 
                 try:
@@ -68,7 +68,7 @@ class Command(BaseCommand):
 
 
                 
-                b1=Question(PatientId=PatientId, PatientAge=PatientAge, PatientSex=PatientSex,
+                b1=Patient(PatientID=PatientID, PatientAge=PatientAge, PatientSex=PatientSex,PatientName=PatientName,
                  PatientBirthDate=PatientBirthDate, PatientBirthTime=PatientBirthTime)
                 b1.save()
 
@@ -174,7 +174,7 @@ class Command(BaseCommand):
 
 
 
-                b2=Choice(StudyDescription=StudyDescription,StationName=StationName,ManufacturerModelName=ManufacturerModelName,
+                b2=Study(StudyDescription=StudyDescription,StationName=StationName,ManufacturerModelName=ManufacturerModelName,
                   StudyInstanceUID=StudyInstanceUID,Pathology=Pathology,StudyDate=StudyDate,
                   StudyTime=StudyTime,AccessionNumber=AccessionNumber,InstitutionName=InstitutionName,
                   ReferringPhysicianName=ReferringPhysicianName,ModalitiesInStudy=ModalitiesInStudy,
@@ -266,7 +266,7 @@ class Command(BaseCommand):
                   AcquisitionNumber = 'undefined' 
                   
 
-                b3=Key(SeriesNumber=SeriesNumber,SeriesInstanceUID=SeriesInstanceUID,ProtocolName=ProtocolName,Modality=Modality,AccessionNumber=AccessionNumber,
+                b3=Series(SeriesNumber=SeriesNumber,SeriesInstanceUID=SeriesInstanceUID,ProtocolName=ProtocolName,Modality=Modality,AccessionNumber=AccessionNumber,
                             SeriesDescription=SeriesDescription,SeriesTime=SeriesTime,ContrastAgent=ContrastAgent,ScanningSequence=ScanningSequence,
                             BodyPartExaminated=BodyPartExaminated,AcquisitionNumber=AcquisitionNumber,study=b2)   
                 b3.save()
