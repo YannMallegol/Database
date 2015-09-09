@@ -5,21 +5,90 @@ from django.db import models
 
 
 class Question(models.Model):
-    question_text = models.CharField(max_length=200, null=True)
-    question_text1 = models.CharField(max_length=200,null=True)
-    question_text2 = models.CharField(max_length=200,null=True)
-    question_text3 = models.CharField(max_length=200,null=True)
+    PatientId = models.CharField(max_length=200,null=False)
+    PatientName = models.CharField(max_length=200,default='')
+    PatientAge = models.CharField(max_length=200,default='')
+    PatientSex = models.CharField(max_length=200,default='')
+    PatientBirthDate = models.CharField(max_length=200,default='')
+    PatientBirthTime = models.CharField(max_length=200,default='')
 
     def __str__(self):              # __unicode__ on Python 2
-        return self.question_text
+        return self.PatientId
 
 
 class Choice(models.Model):
-    question = models.ForeignKey(Question)
-    choice_text = models.CharField(max_length=200)
-    votes = models.IntegerField(default=0)
+    StudyDescription = models.CharField(max_length=200,null=False)
+    StationName = models.CharField(max_length=200,null=False)
+    ManufacturerModelName = models.CharField(max_length=200,null=False)
+    StudyInstanceUID = models.CharField(max_length=200,null=False)
+    Pathology = models.CharField(max_length=200,default='')
+    StudyDate = models.CharField(max_length=200,default='')
+    StudyTime = models.CharField(max_length=200,default='')
+    AccessionNumber = models.CharField(max_length=200,default='')
+    InstitutionName = models.CharField(max_length=200,default='')
+    ReferringPhysicianName =models.CharField(max_length=200,default='')
+    PerformingPhysicianName = models.CharField(max_length=200,default='')
+    ModalitiesInStudy = models.CharField(max_length=200,default='')
+    MagneticFieldStrength = models.IntegerField(default=0)
+    patient = models.ForeignKey(Question)
+
+    def __str__(self):
+        return self.StudyDescription
+
+
 
 
 class Key(models.Model):
-    sport =models.CharField(max_length=200)
-    key_test = models.OneToOneField(Question)
+    SeriesNumber = models.CharField(max_length=200,null=False)
+    SeriesInstanceUID = models.CharField(max_length=200,null=False)
+    ProtocolName = models.CharField(max_length=200,null=False)
+    Modality = models.CharField(max_length=200,null=False)
+    AccessionNumber = models.CharField(max_length=200,default='')
+    SeriesDescription = models.CharField(max_length=200,default='')
+    SeriesTime = models.CharField(max_length=200,default='')
+    ContrastAgent = models.CharField(max_length=200,default='')
+    ScanningSequence = models.CharField(max_length=200,default='')
+    BodyPartExaminated = models.CharField(max_length=200,default='')
+    AcquisitionNumber =  models.CharField(max_length=200,default='')
+    study = models.ForeignKey(Choice)
+
+    def __str__(self):
+        return self.SeriesDescription
+
+
+class MR_Params(models.Model):
+    PixelSpacing = models.CharField(max_length=200,default='')
+    SliceThickness = models.CharField(max_length=200,default='')
+    EchoTime = models.CharField(max_length=200,default='')
+    EchoNumbers = models.CharField(max_length=200,default='')
+    InversionTime = models.CharField(max_length=200,default='')
+    RepetitionTime = models.CharField(max_length=200,default='')
+    modality_params = models.OneToOneField(Key, primary_key=True) 
+
+
+
+class US_Params(models.Model):
+    Name = models.CharField(max_length=200,default='')
+    modality_params = models.OneToOneField(Key, primary_key=True)
+
+    def __str__(self):
+        return self.Name
+
+
+class CT_Params(models.Model):
+    Name = models.CharField(max_length=200,default='')
+    modality_params = models.OneToOneField(Key, primary_key=True)
+
+    def __str__(self):
+        return self.Name        
+    
+
+class Review(models.Model):
+    Name = models.CharField(max_length=200,default='')
+    Comment = models.CharField(max_length=200,default='')
+    Rating = models.BigIntegerField()
+    study = models.ForeignKey(Choice)
+    serie = models.ForeignKey(Key)
+
+    def __str__(self):
+        return self.Name
