@@ -10,3 +10,13 @@ admin.site.register(MR_Params)
 admin.site.register(US_Params)
 admin.site.register(CT_Params)
 admin.site.register(Review)
+
+
+
+
+
+
+
+
+
+
