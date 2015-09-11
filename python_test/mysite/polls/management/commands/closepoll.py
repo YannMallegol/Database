@@ -136,7 +136,7 @@ class Command(BaseCommand):
 
                   b3=Series(SeriesNumber=SeriesNumber,SeriesInstanceUID=SeriesInstanceUID,ProtocolName=ProtocolName,Modality=Modality,AccessionNumber=AccessionNumber,
                               SeriesDescription=SeriesDescription,SeriesTime=SeriesTime,ContrastAgent=ContrastAgent,ScanningSequence=ScanningSequence,
-                              BodyPartExaminated=BodyPartExaminated,AcquisitionNumber=AcquisitionNumber,study=b2)   
+                              BodyPartExaminated=BodyPartExaminated,AcquisitionNumber=AcquisitionNumber,study=search2)   
                   b3.save()
 
 
@@ -248,7 +248,7 @@ class Command(BaseCommand):
                   except AttributeError:
                     Rating = 0
 
-                  b7=Review(Name=Name,Comment=Comment,Rating=Rating, study=b2,serie=b3)
+                  b7=Review(Name=Name,Comment=Comment,Rating=Rating, study=search2,serie=b3)
                   b7.save()
 
 
@@ -453,7 +453,7 @@ class Command(BaseCommand):
 
                   b3=Series(SeriesNumber=SeriesNumber,SeriesInstanceUID=SeriesInstanceUID,ProtocolName=ProtocolName,Modality=Modality,AccessionNumber=AccessionNumber,
                               SeriesDescription=SeriesDescription,SeriesTime=SeriesTime,ContrastAgent=ContrastAgent,ScanningSequence=ScanningSequence,
-                              BodyPartExaminated=BodyPartExaminated,AcquisitionNumber=AcquisitionNumber,study=b2)   
+                              BodyPartExaminated=BodyPartExaminated,AcquisitionNumber=AcquisitionNumber,study=search3)   
                   b3.save()
 
 
@@ -565,7 +565,7 @@ class Command(BaseCommand):
                   except AttributeError:
                     Rating = 0
 
-                  b7=Review(Name=Name,Comment=Comment,Rating=Rating, study=b2,serie=b3)
+                  b7=Review(Name=Name,Comment=Comment,Rating=Rating, study=search3,serie=b3)
                   b7.save()
 
 
