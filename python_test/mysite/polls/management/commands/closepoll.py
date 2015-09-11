@@ -41,6 +41,8 @@ class Command(BaseCommand):
                 #print(search)
 
 
+                
+
 
                 if search1.exists():
                   print('series already exists')
@@ -136,7 +138,7 @@ class Command(BaseCommand):
 
                   b3=Series(SeriesNumber=SeriesNumber,SeriesInstanceUID=SeriesInstanceUID,ProtocolName=ProtocolName,Modality=Modality,AccessionNumber=AccessionNumber,
                               SeriesDescription=SeriesDescription,SeriesTime=SeriesTime,ContrastAgent=ContrastAgent,ScanningSequence=ScanningSequence,
-                              BodyPartExaminated=BodyPartExaminated,AcquisitionNumber=AcquisitionNumber,study=search2)   
+                              BodyPartExaminated=BodyPartExaminated,AcquisitionNumber=AcquisitionNumber,study=search2.first())   
                   b3.save()
 
 
@@ -248,7 +250,7 @@ class Command(BaseCommand):
                   except AttributeError:
                     Rating = 0
 
-                  b7=Review(Name=Name,Comment=Comment,Rating=Rating, study=search2,serie=b3)
+                  b7=Review(Name=Name,Comment=Comment,Rating=Rating, study=search2.first(),serie=b3)
                   b7.save()
 
 
@@ -363,7 +365,7 @@ class Command(BaseCommand):
                     StudyInstanceUID=StudyInstanceUID,Pathology=Pathology,StudyDate=StudyDate,
                     StudyTime=StudyTime,AccessionNumber=AccessionNumber,InstitutionName=InstitutionName,
                     ReferringPhysicianName=ReferringPhysicianName,ModalitiesInStudy=ModalitiesInStudy,
-                    MagneticFieldStrength=MagneticFieldStrength,patient=b1)
+                    MagneticFieldStrength=MagneticFieldStrength,patient=search3.first())
                   b2.save()
                         
 
@@ -453,7 +455,7 @@ class Command(BaseCommand):
 
                   b3=Series(SeriesNumber=SeriesNumber,SeriesInstanceUID=SeriesInstanceUID,ProtocolName=ProtocolName,Modality=Modality,AccessionNumber=AccessionNumber,
                               SeriesDescription=SeriesDescription,SeriesTime=SeriesTime,ContrastAgent=ContrastAgent,ScanningSequence=ScanningSequence,
-                              BodyPartExaminated=BodyPartExaminated,AcquisitionNumber=AcquisitionNumber,study=search3)   
+                              BodyPartExaminated=BodyPartExaminated,AcquisitionNumber=AcquisitionNumber,study=search2.first())   
                   b3.save()
 
 
@@ -565,7 +567,7 @@ class Command(BaseCommand):
                   except AttributeError:
                     Rating = 0
 
-                  b7=Review(Name=Name,Comment=Comment,Rating=Rating, study=search3,serie=b3)
+                  b7=Review(Name=Name,Comment=Comment,Rating=Rating, study=search2.first(),serie=b3)
                   b7.save()
 
 
