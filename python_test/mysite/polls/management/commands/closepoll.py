@@ -13,7 +13,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
        #for dossier, sous_dossiers, fichiers in os.walk('/neuro/users/yann.mallegol/Documents/internship/chris-db/python_test/dicoms'):
-       for dossier, sous_dossiers, fichiers in os.walk('/neuro/users/chris/data'):
+       for dossier, sous_dossiers, fichiers in os.walk('/neuro/users/yann.mallegol/Documents/internship/chris-db/python_test'):
            for fichier in fichiers:
                fullpath = os.path.join(dossier, fichier)
                if fichier.endswith('.dcm'):
