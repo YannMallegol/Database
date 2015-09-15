@@ -33,7 +33,7 @@ class Study(models.Model):
     patient = models.ForeignKey(Patient)
 
     def __str__(self):
-        return self.StudyDescription
+        return self.StudyInstanceUID
 
 
 
@@ -53,7 +53,7 @@ class Series(models.Model):
     study = models.ForeignKey(Study)
 
     def __str__(self):
-        return self.SeriesDescription
+        return self.SeriesInstanceUID
 
 
 class MR_Params(models.Model):
@@ -63,7 +63,7 @@ class MR_Params(models.Model):
     EchoNumbers = models.CharField(max_length=200,default='')
     InversionTime = models.CharField(max_length=200,default='')
     RepetitionTime = models.CharField(max_length=200,default='')
-    modality_params = models.OneToOneField(Series, primary_key=True) 
+    modality_params = models.OneToOneField(Series, primary_key=True)
 
 
 
@@ -80,8 +80,8 @@ class CT_Params(models.Model):
     modality_params = models.OneToOneField(Series, primary_key=True)
 
     def __str__(self):
-        return self.Name        
-    
+        return self.Name
+
 
 class Review(models.Model):
     Name = models.CharField(max_length=200,default='')
