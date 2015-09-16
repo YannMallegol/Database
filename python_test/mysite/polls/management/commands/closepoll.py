@@ -4,25 +4,28 @@ from polls.models import Patient, Study, Series, MR_Params, US_Params, CT_Params
 
 
 
-
-
 class Command(BaseCommand):
-    help = 'that does my stuff'
+    help = 'Find .dcm files and complite tables'
 
 
     def handle(self, *args, **options):
+       
+       dcmTree = '/neuro/users/chris/data'
+       if len(args) == 2:
+           if args[0] == 'path':
+               dcmTree = args[1]
 
        #for dossier, sous_dossiers, fichiers in os.walk('/neuro/users/yann.mallegol/Documents/internship/chris-db/python_test/dicoms'):
-       for dossier, sous_dossiers, fichiers in os.walk('/neuro/users/chris/data'):
+       for dossier, sous_dossiers, fichiers in os.walk(dcmTree):
            for fichier in fichiers:
                fullpath = os.path.join(dossier, fichier)
                if fichier.endswith('.dcm'):
                 print(fullpath)
                 ds = pydicom.read_file(fullpath)
 
-                test_SeriesInstanceUID=ds.SeriesInstanceUID
-                test_StudyInstanceUID=ds.StudyInstanceUID
-                test_PatientID=ds.PatientID
+                test_SeriesInstanceUID=str(ds.SeriesInstanceUID)
+                test_StudyInstanceUID=str(ds.StudyInstanceUID)
+                test_PatientID=str(ds.PatientID)
 
                 #print(test_SeriesInstanceUID)
                 #print(test_StudyInstanceUID)
@@ -39,8 +42,6 @@ class Command(BaseCommand):
                 #earch_test = Series.objects.get(SeriesInstanceUID=test_SeriesInstanceUID)
 
                 #print(search)
-
-
 
 
 
@@ -64,7 +65,7 @@ class Command(BaseCommand):
                     SeriesNumber = 'undefined'
 
                   try:
-                    SeriesInstanceUID=ds.SeriesInstanceUID
+                    SeriesInstanceUID=str(ds.SeriesInstanceUID)
                   except NameError:
                     SeriesInstanceUID = 'undefined'
                   except AttributeError:
@@ -83,14 +84,6 @@ class Command(BaseCommand):
                     Modality = 'undefined'
                   except AttributeError:
                     Modality = 'undefined'
-
-                  try:
-                    AccessionNumber=ds.AccessionNumber
-                  except NameError:
-                    AccessionNumber = 'undefined'
-                  except AttributeError:
-                    AccessionNumber = 'undefined'
-
 
                   try:
                     SeriesDescription=ds.SeriesDescription
@@ -112,7 +105,6 @@ class Command(BaseCommand):
                     ContrastAgent = 'undefined'
                   except AttributeError:
                     ContrastAgent = 'undefined'
-
 
                   try:
                     ScanningSequence=ds.ScanningSequence
@@ -136,17 +128,12 @@ class Command(BaseCommand):
                     AcquisitionNumber = 'undefined'
 
 
-                  b3=Series(SeriesNumber=SeriesNumber,SeriesInstanceUID=SeriesInstanceUID,ProtocolName=ProtocolName,Modality=Modality,AccessionNumber=AccessionNumber,
+                  b3=Series(SeriesNumber=SeriesNumber,SeriesInstanceUID=SeriesInstanceUID,ProtocolName=ProtocolName,Modality=Modality,
                               SeriesDescription=SeriesDescription,SeriesTime=SeriesTime,ContrastAgent=ContrastAgent,ScanningSequence=ScanningSequence,
                               BodyPartExaminated=BodyPartExaminated,AcquisitionNumber=AcquisitionNumber,study=search2.first())
                   b3.save()
 
-
-
-
-
                 ############ MR_Params table ##############
-
 
                   try:
                     PixelSpacing=ds.PixelSpacing
@@ -162,7 +149,6 @@ class Command(BaseCommand):
                   except AttributeError:
                     SliceThickness = 'undefined'
 
-
                   try:
                     EchoTime=ds.EchoTime
                   except NameError:
@@ -177,7 +163,6 @@ class Command(BaseCommand):
                   except AttributeError:
                     EchoNumbers = 'undefined'
 
-
                   try:
                     InversionTime=ds.InversionTime
                   except NameError:
@@ -191,8 +176,6 @@ class Command(BaseCommand):
                     RepetitionTime = 'undefined'
                   except AttributeError:
                     RepetitionTime = 'undefined'
-
-
 
 
                   b4=MR_Params(PixelSpacing=PixelSpacing,SliceThickness=SliceThickness,EchoTime=EchoTime,EchoNumbers=EchoNumbers,
@@ -210,9 +193,9 @@ class Command(BaseCommand):
                   except AttributeError:
                     Name = 'undefined'
 
+
                   b5=US_Params(Name=Name,modality_params=b3)
                   b5.save()
-
 
                   ################ CT_Params ####################
 
@@ -224,37 +207,9 @@ class Command(BaseCommand):
                   except AttributeError:
                     Name = 'undefined'
 
+
                   b6=CT_Params(Name=Name,modality_params=b3)
                   b6.save()
-
-                  ##################### Review  ################
-
-                  try:
-                    Name=ds.Name
-                  except NameError:
-                    Name = 'undefined'
-                  except AttributeError:
-                    Name = 'undefined'
-
-                  try:
-                    Comment=ds.Comment
-                  except NameError:
-                    Comment = 'undefined'
-                  except AttributeError:
-                    Comment = 'undefined'
-
-                  try:
-                    Rating=ds.Rating
-                  except NameError:
-                    Rating = 0
-                  except AttributeError:
-                    Rating = 0
-
-                  b7=Review(Name=Name,Comment=Comment,Rating=Rating, study=search2.first(),serie=b3)
-                  b7.save()
-
-
-
 
 
                 elif search3.exists():
@@ -262,7 +217,6 @@ class Command(BaseCommand):
                 #la SeriesInstanceUID existe pas et StudyInstanceUID existe pas et PatientID existe
                 #creation de toutes les tables sauf 'Patient'
                   ################## Study table ####################
-
 
                   try:
                     StudyDescription=ds.StudyDescription
@@ -286,7 +240,7 @@ class Command(BaseCommand):
                     ManufacturerModelName = 'undefined'
 
                   try:
-                    StudyInstanceUID=ds.StudyInstanceUID
+                    StudyInstanceUID=str(ds.StudyInstanceUID)
                   except NameError:
                     StudyInstanceUID = 'undefined'
                   except AttributeError:
@@ -312,7 +266,6 @@ class Command(BaseCommand):
                     StudyTime = 'undefined'
                   except AttributeError:
                     StudyTime = 'undefined'
-
 
                   try:
                     AccessionNumber=ds.AccessionNumber
@@ -343,7 +296,6 @@ class Command(BaseCommand):
                   except AttributeError:
                     PerformingPhysicianName = 'undefined'
 
-
                   try:
                     ModalitiesInStudy=ds.ModalitiesInStudy
                   except NameError:
@@ -359,8 +311,6 @@ class Command(BaseCommand):
                     MagneticFieldStrength = 0
 
 
-
-
                   b2=Study(StudyDescription=StudyDescription,StationName=StationName,ManufacturerModelName=ManufacturerModelName,
                     StudyInstanceUID=StudyInstanceUID,Pathology=Pathology,StudyDate=StudyDate,
                     StudyTime=StudyTime,AccessionNumber=AccessionNumber,InstitutionName=InstitutionName,
@@ -368,10 +318,7 @@ class Command(BaseCommand):
                     MagneticFieldStrength=MagneticFieldStrength,patient=search3.first())
                   b2.save()
 
-
-
                   ####################### Series table ######################
-
 
                   try:
                     SeriesNumber=ds.SeriesNumber
@@ -381,7 +328,7 @@ class Command(BaseCommand):
                     SeriesNumber = 'undefined'
 
                   try:
-                    SeriesInstanceUID=ds.SeriesInstanceUID
+                    SeriesInstanceUID=str(ds.SeriesInstanceUID)
                   except NameError:
                     SeriesInstanceUID = 'undefined'
                   except AttributeError:
@@ -400,14 +347,6 @@ class Command(BaseCommand):
                     Modality = 'undefined'
                   except AttributeError:
                     Modality = 'undefined'
-
-                  try:
-                    AccessionNumber=ds.AccessionNumber
-                  except NameError:
-                    AccessionNumber = 'undefined'
-                  except AttributeError:
-                    AccessionNumber = 'undefined'
-
 
                   try:
                     SeriesDescription=ds.SeriesDescription
@@ -429,7 +368,6 @@ class Command(BaseCommand):
                     ContrastAgent = 'undefined'
                   except AttributeError:
                     ContrastAgent = 'undefined'
-
 
                   try:
                     ScanningSequence=ds.ScanningSequence
@@ -453,17 +391,12 @@ class Command(BaseCommand):
                     AcquisitionNumber = 'undefined'
 
 
-                  b3=Series(SeriesNumber=SeriesNumber,SeriesInstanceUID=SeriesInstanceUID,ProtocolName=ProtocolName,Modality=Modality,AccessionNumber=AccessionNumber,
+                  b3=Series(SeriesNumber=SeriesNumber,SeriesInstanceUID=SeriesInstanceUID,ProtocolName=ProtocolName,Modality=Modality,
                               SeriesDescription=SeriesDescription,SeriesTime=SeriesTime,ContrastAgent=ContrastAgent,ScanningSequence=ScanningSequence,
                               BodyPartExaminated=BodyPartExaminated,AcquisitionNumber=AcquisitionNumber,study=search2.first())
                   b3.save()
 
-
-
-
-
                 ############ MR_Params table ##############
-
 
                   try:
                     PixelSpacing=ds.PixelSpacing
@@ -479,7 +412,6 @@ class Command(BaseCommand):
                   except AttributeError:
                     SliceThickness = 'undefined'
 
-
                   try:
                     EchoTime=ds.EchoTime
                   except NameError:
@@ -494,7 +426,6 @@ class Command(BaseCommand):
                   except AttributeError:
                     EchoNumbers = 'undefined'
 
-
                   try:
                     InversionTime=ds.InversionTime
                   except NameError:
@@ -508,8 +439,6 @@ class Command(BaseCommand):
                     RepetitionTime = 'undefined'
                   except AttributeError:
                     RepetitionTime = 'undefined'
-
-
 
 
                   b4=MR_Params(PixelSpacing=PixelSpacing,SliceThickness=SliceThickness,EchoTime=EchoTime,EchoNumbers=EchoNumbers,
@@ -530,9 +459,7 @@ class Command(BaseCommand):
                   b5=US_Params(Name=Name,modality_params=b3)
                   b5.save()
 
-
                   ################ CT_Params ####################
-
 
                   try:
                     Name=ds.Name
@@ -544,35 +471,6 @@ class Command(BaseCommand):
                   b6=CT_Params(Name=Name,modality_params=b3)
                   b6.save()
 
-                  ##################### Review  ################
-
-                  try:
-                    Name=ds.Name
-                  except NameError:
-                    Name = 'undefined'
-                  except AttributeError:
-                    Name = 'undefined'
-
-                  try:
-                    Comment=ds.Comment
-                  except NameError:
-                    Comment = 'undefined'
-                  except AttributeError:
-                    Comment = 'undefined'
-
-                  try:
-                    Rating=ds.Rating
-                  except NameError:
-                    Rating = 0
-                  except AttributeError:
-                    Rating = 0
-
-                  b7=Review(Name=Name,Comment=Comment,Rating=Rating, study=search2.first(),serie=b3)
-                  b7.save()
-
-
-
-
 
                 else:
 
@@ -580,13 +478,13 @@ class Command(BaseCommand):
 
 
                   ################# Patient table ###################
+
                   try:
                     PatientID=ds.PatientID
                   except NameError:
                     PatientID = 'undefined'
                   except AttributeError:
                     PatientID = 'undefined'
-
 
                   try:
                     PatientName=ds.PatientName
@@ -624,15 +522,11 @@ class Command(BaseCommand):
                     PatientBirthTime = 'undefined'
 
 
-
                   b1=Patient(PatientID=PatientID, PatientAge=PatientAge, PatientSex=PatientSex,PatientName=PatientName,
                    PatientBirthDate=PatientBirthDate, PatientBirthTime=PatientBirthTime)
                   b1.save()
 
-
-
                   ################## Study table ####################
-
 
                   try:
                     StudyDescription=ds.StudyDescription
@@ -656,7 +550,7 @@ class Command(BaseCommand):
                     ManufacturerModelName = 'undefined'
 
                   try:
-                    StudyInstanceUID=ds.StudyInstanceUID
+                    StudyInstanceUID=str(ds.StudyInstanceUID)
                   except NameError:
                     StudyInstanceUID = 'undefined'
                   except AttributeError:
@@ -683,7 +577,6 @@ class Command(BaseCommand):
                   except AttributeError:
                     StudyTime = 'undefined'
 
-
                   try:
                     AccessionNumber=ds.AccessionNumber
                   except NameError:
@@ -698,7 +591,6 @@ class Command(BaseCommand):
                   except AttributeError:
                     InstitutionName = 'undefined'
 
-
                   try:
                     ReferringPhysicianName=ds.ReferringPhysicianName
                   except NameError:
@@ -712,7 +604,6 @@ class Command(BaseCommand):
                     PerformingPhysicianName = 'undefined'
                   except AttributeError:
                     PerformingPhysicianName = 'undefined'
-
 
                   try:
                     ModalitiesInStudy=ds.ModalitiesInStudy
@@ -729,8 +620,6 @@ class Command(BaseCommand):
                     MagneticFieldStrength = 0
 
 
-
-
                   b2=Study(StudyDescription=StudyDescription,StationName=StationName,ManufacturerModelName=ManufacturerModelName,
                     StudyInstanceUID=StudyInstanceUID,Pathology=Pathology,StudyDate=StudyDate,
                     StudyTime=StudyTime,AccessionNumber=AccessionNumber,InstitutionName=InstitutionName,
@@ -738,10 +627,7 @@ class Command(BaseCommand):
                     MagneticFieldStrength=MagneticFieldStrength,patient=b1)
                   b2.save()
 
-
-
                   ####################### Series table ######################
-
 
                   try:
                     SeriesNumber=ds.SeriesNumber
@@ -751,7 +637,7 @@ class Command(BaseCommand):
                     SeriesNumber = 'undefined'
 
                   try:
-                    SeriesInstanceUID=ds.SeriesInstanceUID
+                    SeriesInstanceUID=str(ds.SeriesInstanceUID)
                   except NameError:
                     SeriesInstanceUID = 'undefined'
                   except AttributeError:
@@ -770,14 +656,6 @@ class Command(BaseCommand):
                     Modality = 'undefined'
                   except AttributeError:
                     Modality = 'undefined'
-
-                  try:
-                    AccessionNumber=ds.AccessionNumber
-                  except NameError:
-                    AccessionNumber = 'undefined'
-                  except AttributeError:
-                    AccessionNumber = 'undefined'
-
 
                   try:
                     SeriesDescription=ds.SeriesDescription
@@ -799,7 +677,6 @@ class Command(BaseCommand):
                     ContrastAgent = 'undefined'
                   except AttributeError:
                     ContrastAgent = 'undefined'
-
 
                   try:
                     ScanningSequence=ds.ScanningSequence
@@ -823,14 +700,10 @@ class Command(BaseCommand):
                     AcquisitionNumber = 'undefined'
 
 
-                  b3=Series(SeriesNumber=SeriesNumber,SeriesInstanceUID=SeriesInstanceUID,ProtocolName=ProtocolName,Modality=Modality,AccessionNumber=AccessionNumber,
+                  b3=Series(SeriesNumber=SeriesNumber,SeriesInstanceUID=SeriesInstanceUID,ProtocolName=ProtocolName,Modality=Modality,
                               SeriesDescription=SeriesDescription,SeriesTime=SeriesTime,ContrastAgent=ContrastAgent,ScanningSequence=ScanningSequence,
                               BodyPartExaminated=BodyPartExaminated,AcquisitionNumber=AcquisitionNumber,study=b2)
                   b3.save()
-
-
-
-
 
                 ############ MR_Params table ##############
 
@@ -849,7 +722,6 @@ class Command(BaseCommand):
                   except AttributeError:
                     SliceThickness = 'undefined'
 
-
                   try:
                     EchoTime=ds.EchoTime
                   except NameError:
@@ -864,7 +736,6 @@ class Command(BaseCommand):
                   except AttributeError:
                     EchoNumbers = 'undefined'
 
-
                   try:
                     InversionTime=ds.InversionTime
                   except NameError:
@@ -878,7 +749,6 @@ class Command(BaseCommand):
                     RepetitionTime = 'undefined'
                   except AttributeError:
                     RepetitionTime = 'undefined'
-
 
 
 
@@ -900,9 +770,7 @@ class Command(BaseCommand):
                   b5=US_Params(Name=Name,modality_params=b3)
                   b5.save()
 
-
                   ################ CT_Params ####################
-
 
                   try:
                     Name=ds.Name
@@ -913,45 +781,6 @@ class Command(BaseCommand):
 
                   b6=CT_Params(Name=Name,modality_params=b3)
                   b6.save()
-
-                  ##################### Review  ################
-
-                  try:
-                    Name=ds.Name
-                  except NameError:
-                    Name = 'undefined'
-                  except AttributeError:
-                    Name = 'undefined'
-
-                  try:
-                    Comment=ds.Comment
-                  except NameError:
-                    Comment = 'undefined'
-                  except AttributeError:
-                    Comment = 'undefined'
-
-                  try:
-                    Rating=ds.Rating
-                  except NameError:
-                    Rating = 0
-                  except AttributeError:
-                    Rating = 0
-
-                  b7=Review(Name=Name,Comment=Comment,Rating=Rating, study=b2,serie=b3)
-                  b7.save()
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
                else:

@@ -43,7 +43,7 @@ class Series(models.Model):
     SeriesInstanceUID = models.CharField(max_length=200,null=False)
     ProtocolName = models.CharField(max_length=200,null=False)
     Modality = models.CharField(max_length=200,null=False)
-    AccessionNumber = models.CharField(max_length=200,default='')
+    #AccessionNumber = models.CharField(max_length=200,default='')
     SeriesDescription = models.CharField(max_length=200,default='')
     SeriesTime = models.CharField(max_length=200,default='')
     ContrastAgent = models.CharField(max_length=200,default='')

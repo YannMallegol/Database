@@ -27,13 +27,13 @@ class SeriesInline(admin.TabularInline):
 class SeriesAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'fields': ['SeriesInstanceUID']}),
-        ( 'Series information', {'fileds':['SeriesNumber','SeriesInstanceUID', 'ProtocolName', 'Modality','AccessionNumber',
+        ( 'Series information', {'fileds':['SeriesNumber','SeriesInstanceUID', 'ProtocolName', 'Modality',
          'SeriesDescription', 'SeriesTime', 'ContrastAgent','ScanningSequence','BodyPartExaminated','AcquisitionNumber'],
          'classes': ['collapse']},
          ),
     ]
-    list_display = ('SeriesInstanceUID','SeriesNumber','SeriesInstanceUID', 'ProtocolName', 'Modality','AccessionNumber','SeriesDescription', 'SeriesTime', 'ContrastAgent','ScanningSequence','BodyPartExaminated','AcquisitionNumber')
-    search_fields = ['SeriesInstanceUID','SeriesNumber','SeriesInstanceUID', 'ProtocolName', 'Modality','AccessionNumber','SeriesDescription', 'SeriesTime', 'ContrastAgent','ScanningSequence','BodyPartExaminated','AcquisitionNumber']
+    list_display = ('SeriesInstanceUID','SeriesNumber','SeriesInstanceUID', 'ProtocolName', 'Modality','SeriesDescription', 'SeriesTime', 'ContrastAgent','ScanningSequence','BodyPartExaminated','AcquisitionNumber')
+    search_fields = ['SeriesInstanceUID','SeriesNumber','SeriesInstanceUID', 'ProtocolName', 'Modality','SeriesDescription', 'SeriesTime', 'ContrastAgent','ScanningSequence','BodyPartExaminated','AcquisitionNumber']
 
 
 class StudyAdmin(admin.ModelAdmin):
